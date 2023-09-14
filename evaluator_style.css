@@ -1,0 +1,69 @@
+/* Style for the container of the evaluation form */
+.evaluation-form {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    font-family: Arial, sans-serif;
+}
+
+/* Style for the section headings */
+.evaluation-form h2 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+/* Style for the criteria list */
+.evaluation-form ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Style for the criteria list items */
+.evaluation-form li {
+    margin-bottom: 10px;
+}
+
+/* Style for the input range */
+.evaluation-form input[type=range] {
+    width: 100%;
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+/* Style for the text area */
+.evaluation-form textarea {
+    width: 100%;
+    height: 200px;
+    margin-bottom: 10px;
+}
+
+/* Style for the file upload button */
+.evaluation-form input[type=file] {
+    margin-bottom: 10px;
+}
+
+/* Style for the maximum character slider */
+.evaluation-form .character-slider {
+    width: 100%;
+    height: 20px;
+    margin-bottom: 10px;
+}
+
+/* Style for the submit button */
+.evaluation-form input[type=submit] {
+    background-color: #007bff;
+    border: none;
+    color: #fff;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Style for the submit button on hover */
+.evaluation-form input[type=submit]:hover {
+    background-color: #0062cc;
+}

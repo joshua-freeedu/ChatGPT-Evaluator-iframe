@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<link rel="stylesheet" href="evaluator_style.css">
+
+<head>
+	<title>Essay Evaluation Form</title>
+</head>
+<body>
+	<div class="form">
+		<h2>Essay Evaluation</h2>
+		<form id="evaluation-form" method="POST">
+			<div class="criteria">
+				<h3>Criteria</h3>
+				<div class="criterion">
+					<label for="cohesion">Cohesion</label>
+					<input type="range" id="cohesion" name="cohesion" min="0" max="10">
+					<span class="min-value">0</span>
+					<span class="max-value">10</span>
+				</div>
+				<div class="criterion">
+					<label for="cohesion">Syntax</label>
+					<input type="range" id="syntax" name="syntax" min="0" max="10">
+					<span class="min-value">0</span>
+					<span class="max-value">10</span>
+				</div>
+                <div class="criterion">
+					<label for="cohesion">Vocabulary</label>
+					<input type="range" id="vocabulary" name="vocabulary" min="0" max="10">
+					<span class="min-value">0</span>
+					<span class="max-value">10</span>
+				</div>
+                <div class="criterion">
+					<label for="cohesion">Phraseology</label>
+					<input type="range" id="phraseology" name="phraseology" min="0" max="10">
+					<span class="min-value">0</span>
+					<span class="max-value">10</span>
+				</div>
+                <div class="criterion">
+					<label for="cohesion">Grammar</label>
+					<input type="range" id="grammar" name="grammar" min="0" max="10">
+					<span class="min-value">0</span>
+					<span class="max-value">10</span>
+				</div>
+                <div class="criterion">
+					<label for="cohesion">Conventions</label>
+					<input type="range" id="conventions" name="conventions" min="0" max="10">
+					<span class="min-value">0</span>
+					<span class="max-value">10</span>
+				</div>
+			</div>
+
+			<div class="essay">
+				<h3>Essay</h3>
+				<textarea id="essay-text" name="essay_text" placeholder="Enter your essay here"></textarea>
+				<input type="file" id="essay-file" name="essay_file">
+				<span id="max-characters">0</span>
+				<span> / 5000 characters</span>
+				<input type="range" id="essay-length" name="essay_length" min="0" max="5000" value="0">
+			</div>
+
+			<button type="submit" id="submit-button">Submit</button>
+		</form>
+	</div>
+
+	<script>
+		// define the API endpoint
+		const API_ENDPOINT = "https://sample.api.com";
+
+		// define the form element
+		const form = document.querySelector("#evaluation-form");
+
+		// add a submit event listener to the form
+		form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            // create the criterion object
+            const criteria = {};
+            const criterionElements = document.querySelectorAll(".criterion input[type=range]");
+            for (const element of criterionElements) {
+                criteria[element.name] = element.value;
+            }
+
+            // create the essay object
+            const essay = {};
+            const essayText = document.querySelector("#essay-text").value;
+            const essayFile = document.querySelector("#essay-file").files[0];
+            if (essayFile) {
+                essay["essay_file"] = essayFile;
+            } else {
+                essay["essay_text"] = essayText;
+            }
+
+            // make the API request
+            const response = await fetch(API_ENDPOINT, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    criteria: criteria,
+                    essay: essay
+                })
+            });
+
+            if (response.ok) {
+                alert("Evaluation submitted successfully!");
+                form.reset();
+            } else {
+                alert("Error submitting evaluation. Please try again later.");
+            }
+        });
+
+		// add event listeners to the criterion range inputs
+		const criterionRangeInputs = document.querySelectorAll(".criterion input[type=range]");
+		for (const element of criterionRangeInputs) {
+            element.addEventListener("input", function() {
+                const minValueElement = element.parentElement.querySelector(".min-value");
+                const maxValueElement = element.parentElement.querySelector(".max-value");
+                minValueElement.textContent = element.min;
+                maxValueElement.textContent = element.max;
+            });
+        }
+
+        // add an event listener to the essay text area
+        const essayTextArea = document.querySelector("#essay-text");
+        essayTextArea.addEventListener("input", function() {
+            const essayLengthElement = document.querySelector("#max-characters");
+            essayLengthElement.textContent = essayTextArea.value.length;
+        });
+
+        // add an event listener to the essay file input
+        const essayFileInput = document.querySelector("#essay-file");
+        essayFileInput.addEventListener("change", function() {
+            const essayLengthElement = document.querySelector("#max-characters");
+            const fileSize = this.files[0].size;
+            const fileName = this.files[0].name;
+            const fileSizeInKB = fileSize / 1024;
+            essayLengthElement.textContent = `File selected: ${fileName} (${fileSizeInKB.toFixed(2)} KB)`;
+        });
+    </script>
+</body>
+</html>
